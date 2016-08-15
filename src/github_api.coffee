@@ -1,0 +1,3 @@
+class GithubApi
+  constructor: (opts = {})->
+    @
