@@ -34,12 +34,33 @@ describe "GithubApi", ->
 
     it "returns the version name", (done)->
       # make the request
-      api.version (name)->
-        expect(name).toEqual("1.3.0")
+      api.version (attributes)->
+        expect(attributes.name).toEqual("1.0.0-alpha.3")
         done()
 
-      # return a json payload with the version
+      # return a json payload with the version name
       jasmine.Ajax.requests.mostRecent().respondWith
         "status":       200
         "contentType":  'application/json'
-        "responseText": '{"name": "1.3.0"}'
+        "responseText": '{"name": "1.0.0-alpha.3"}'
+
+    it "returns the last published_at timestamp", (done)->
+      # make the request
+      api.version (attributes)->
+        expect(attributes.published_at).toEqual("2016-01-09T05:31:01Z")
+        done()
+
+      # return a json payload with the published_at timestamp
+      jasmine.Ajax.requests.mostRecent().respondWith
+        "status":       200
+        "contentType":  'application/json'
+        "responseText": '{"published_at": "2016-01-09T05:31:01Z"}'
+
+ xit "makes a requst for real", (done)->
+   api = new GithubApi
+     user: "alextaujenis"
+     repo: "RBD_Timer"
+
+   api.version (attributes)->
+     console.log "#{api.repo} v#{attributes.name}, last updated: #{attributes.published_at}"
+     done()

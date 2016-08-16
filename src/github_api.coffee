@@ -17,6 +17,10 @@ class GithubApi
 
   _processStateChange: (xhr, callback)->
     if xhr.readyState == 4 && xhr.status == 200
-      json = JSON.parse(xhr.responseText)
-      callback(json.name)
+      json    = JSON.parse(xhr.responseText)
+      payload =
+        name:         json.name
+        published_at: json.published_at
+
+      callback(payload)
       return

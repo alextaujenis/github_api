@@ -24,10 +24,14 @@ GithubApi = (function() {
   };
 
   GithubApi.prototype._processStateChange = function(xhr, callback) {
-    var json;
+    var json, payload;
     if (xhr.readyState === 4 && xhr.status === 200) {
       json = JSON.parse(xhr.responseText);
-      callback(json.name);
+      payload = {
+        name: json.name,
+        published_at: json.published_at
+      };
+      callback(payload);
     }
   };
 
