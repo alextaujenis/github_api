@@ -3,6 +3,7 @@ module.exports = function(config) {
     basePath: '',
     frameworks: ['jasmine'],
     files: [
+      'https://cdnjs.cloudflare.com/ajax/libs/jasmine-ajax/3.2.0/mock-ajax.min.js',
       'src/*.coffee',
       'spec/*.coffee'
     ],
