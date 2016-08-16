@@ -22,13 +22,13 @@ describe "GithubApi", ->
       user: user
       repo: repo
 
-    it "makes a GET request to https://api.github.com/repos/USER/REPO/releases/latest", ->
+    it "makes a GET request to https://api.github.com/repos/USER/REPO/releases", ->
       # make the request
       api.version()
 
       # check the url
       request_url  = jasmine.Ajax.requests.mostRecent().url
-      expected_url = "https://api.github.com/repos/#{user}/#{repo}/releases/latest"
+      expected_url = "https://api.github.com/repos/#{user}/#{repo}/releases"
 
       expect(request_url).toBe(expected_url)
 
@@ -42,7 +42,7 @@ describe "GithubApi", ->
       jasmine.Ajax.requests.mostRecent().respondWith
         "status":       200
         "contentType":  'application/json'
-        "responseText": '{"name": "1.0.0-alpha.3"}'
+        "responseText": '[{"name": "1.0.0-alpha.3"}]'
 
     it "returns the last published_at timestamp", (done)->
       # make the request
@@ -54,13 +54,13 @@ describe "GithubApi", ->
       jasmine.Ajax.requests.mostRecent().respondWith
         "status":       200
         "contentType":  'application/json'
-        "responseText": '{"published_at": "2016-01-09T05:31:01Z"}'
+        "responseText": '[{"published_at": "2016-01-09T05:31:01Z"}]'
 
  xit "makes a requst for real", (done)->
    api = new GithubApi
      user: "alextaujenis"
-     repo: "RBD_Timer"
+     repo: "RBD_SerialManager"
 
    api.version (attributes)->
-     console.log "#{api.repo} v#{attributes.name}, last updated: #{attributes.published_at}"
+     console.log "#{api.repo} v#{attributes.name}, last published: #{attributes.published_at}"
      done()
