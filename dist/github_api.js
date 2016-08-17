@@ -24,15 +24,24 @@ GithubApi = (function() {
   };
 
   GithubApi.prototype._processStateChange = function(xhr, callback) {
-    var json, payload;
+    var json;
     if (xhr.readyState === 4 && xhr.status === 200) {
-      json = JSON.parse(xhr.responseText)[0];
-      payload = {
-        name: json.name,
-        published_at: json.published_at
-      };
-      callback(payload);
+      json = JSON.parse(xhr.responseText);
+      json = this._sortJson(json)[0];
+      callback(json);
     }
+  };
+
+  GithubApi.prototype._sortJson = function(json) {
+    return json.sort(function(a, b) {
+      if (a.name < b.name) {
+        return 1;
+      }
+      if (a.name > b.name) {
+        return -1;
+      }
+      return 0;
+    });
   };
 
   return GithubApi;

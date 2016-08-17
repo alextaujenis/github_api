@@ -44,7 +44,7 @@ describe "GithubApi", ->
         "contentType":  'application/json'
         "responseText": '[{"name": "1.0.0-alpha.3"}]'
 
-    it "returns the last published_at timestamp", (done)->
+    it "returns the published_at timestamp", (done)->
       # make the request
       api.version (attributes)->
         expect(attributes.published_at).toEqual("2016-01-09T05:31:01Z")
@@ -56,11 +56,35 @@ describe "GithubApi", ->
         "contentType":  'application/json'
         "responseText": '[{"published_at": "2016-01-09T05:31:01Z"}]'
 
- xit "makes a requst for real", (done)->
-   api = new GithubApi
-     user: "alextaujenis"
-     repo: "RBD_SerialManager"
+    it "returns the latest release", (done)->
+      # make the request
+      api.version (attributes)->
+        expect(attributes.name).toEqual("1.1.2")
+        done()
 
-   api.version (attributes)->
-     console.log "#{api.repo} v#{attributes.name}, last published: #{attributes.published_at}"
-     done()
+      # return a json payload with multiple versions
+      jasmine.Ajax.requests.mostRecent().respondWith
+        "status":       200
+        "contentType":  'application/json'
+        "responseText": '[{"name": "1.1.0"}, {"name": "1.1.2"}, {"name": "1.1.1"}]'
+
+    it "returns the latest pre-release", (done)->
+      # make the request
+      api.version (attributes)->
+        expect(attributes.name).toEqual("1.0.0-alpha.3")
+        done()
+
+      # return a json payload with multiple versions
+      jasmine.Ajax.requests.mostRecent().respondWith
+        "status":       200
+        "contentType":  'application/json'
+        "responseText": '[{"name": "1.0.0-alpha.1"}, {"name": "1.0.0-alpha.3"}, {"name": "1.0.0-alpha.2"}]'
+
+  xit "makes a requst for real", (done)->
+    api = new GithubApi
+      user: "alextaujenis"
+      repo: "RBD_Timer"
+
+    api.version (attributes)->
+      console.log "#{api.repo} v#{attributes.name}, last published: #{attributes.published_at}"
+      done()
