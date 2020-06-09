@@ -57,6 +57,9 @@ class GithubApi
       if a_major == b_major && a_minor == b_minor && a_patch > b_patch # patch
         return -1
 
+      if a_major == b_major && a_minor == b_minor && a_patch == b_patch && b_alpha == 0
+        return 1
+
       if a_major == b_major && a_minor == b_minor && a_patch == b_patch && a_alpha > b_alpha # alpha
         return -1
 

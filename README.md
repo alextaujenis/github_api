@@ -11,17 +11,19 @@ See a live demo with repo version and last updated timestamp - async from the Gi
 
 Include the github\_api.js source file (or minified version) in your html page
 
-```<script src="dist/github_api.min.js"></script>```
+`<script src="dist/github_api.min.js"></script>`
 
 Create a new GithubApi object and pass in the user and repo names:
 
-```var api = new GithubApi({user: "alextaujenis", repo: "RobotsBigData"});```
+`var api = new GithubApi({user: "alextaujenis", repo: "RobotsBigData"});`
 
 Then fetch the repo release data:
 
-```api.version(function(attributes) {
+```
+api.version(function(attributes) {
   alert(api.repo + " v" + attributes.tag_name + " last published " + attributes.published_at);
-});```
+});
+```
 
 ## Json attributes
 
